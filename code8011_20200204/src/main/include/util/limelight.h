@@ -5,10 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/Smartdashboard.h>
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
-
 #pragma once
 
 class limelight {
@@ -19,11 +18,9 @@ class limelight {
   double getHorAngle();
   double getArea();
   double getSkew();
-  void printValues();
-  bool hasTarget();
-  std::vector<double> aim_range();
+  double printValues();
+  boolean hasTarget();
   
-  //获取Limelight信息
   std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
 
@@ -31,11 +28,6 @@ class limelight {
   const double MOUNT_HEIGHT = 0.7;
   const double TARGET_HEIGHT = 1.6;
   const double pi = 3.1416;
+  
 
-  const double kpDistance = -0.035;
-  const double kpHor = 0.015;
-  const double kpSpin = 0.02;
-  const double targetDist = 2.0;
-  const double min_aim_command_hor = 0.15;
-  const double min_aim_command_spin = 0.15;
 };

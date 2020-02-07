@@ -6,11 +6,9 @@
 #include <frc2/command/CommandScheduler.h>
 #include<frc/Joystick.h>
 #include<swerveDrive/swerveDriveMode.h>
-#include<util/limelight.h>
 
 frc_8011::swerveDriveMode driveMode;
 frc::Joystick _joy{0};
-limelight lime;
 
 void Robot::RobotInit() {
   driveMode.initMotor();
@@ -25,6 +23,7 @@ void Robot::DisabledPeriodic() {}
 
 
 void Robot::AutonomousInit() {
+ 
 }
 
 void Robot::AutonomousPeriodic() {}
@@ -45,12 +44,6 @@ void Robot::TeleopPeriodic() {
   if(Y<0.1&&Y>-0.1)  {Y=0.0;}
   if(R<0.1&&R>-0.1)  {R=0.0;}
   driveMode.execute(Y,X,R);
-
-  //aiming and tracking mode
-  if (_joy.GetRawButtonPressed(6)){
-    std::vector<double> vect = lime.aim_range();
-    driveMode.execute(vect.at(0),vect.at(1),vect.at(2));
-  }
 }
 
 
