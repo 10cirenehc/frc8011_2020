@@ -28,10 +28,16 @@ namespace frc_8011{
      int getDriveMotorId();
      //获取旋转编码器的位置
      double getEncoder();
+     //复位程序初始化
+     int steerMotorResetInit();
+     //旋转马达在启动程序时自动恢复到原位
+     void steerMotorReset(double position);
 
    private:
      rev::CANSparkMax *driveMotor;
      TalonSRX * steerMotor;
+     rev::CANPIDController *m_pidController;
+     //rev::CANEncoder m_encoder;
 
    };
 }

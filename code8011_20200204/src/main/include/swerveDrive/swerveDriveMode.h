@@ -16,5 +16,11 @@ public:
     void initMotor();
     //底盘马达运行
     void execute(double FWD,double STR,double RCW);
+    //马达复位初始化
+    void resetInit();
+    //马达位置复原
+    void resetMotor();
+    //PID控制底盘行驶距离
+    void positionControl(double position);
 };
 }

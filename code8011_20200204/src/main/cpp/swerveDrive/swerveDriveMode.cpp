@@ -17,17 +17,11 @@ void frc_8011::swerveDriveMode::initMotor(){
      _rightFrontWheel.motorInit();
      _leftRearWheel.motorInit();
      _rightRearWheel.motorInit();
-
-     frc::SmartDashboard::PutNumber("leftFrontPositionA",_leftFrontWheel.getEncoder());
-     frc::SmartDashboard::PutNumber("rightFrontPositionA",_rightFrontWheel.getEncoder());
-     frc::SmartDashboard::PutNumber("leftRearPositionA",_leftRearWheel.getEncoder());
-     frc::SmartDashboard::PutNumber("rightRearPositionA",_rightRearWheel.getEncoder());
 }
 
 void frc_8011::swerveDriveMode::execute(double FWD,double STR,double RCW){
-
-    leftFrontSpeed=frc_8011::WS1Speed(FWD,STR,RCW);
-    rightFrontSpeed=frc_8011::WS2Speed(FWD,STR,RCW);
+    rightFrontSpeed=frc_8011::WS1Speed(FWD,STR,RCW);
+    leftFrontSpeed=frc_8011::WS2Speed(FWD,STR,RCW);
     leftRearSpeed=frc_8011::WS3Speed(FWD,STR,RCW);
     rightRearSpeed=frc_8011::WS4Speed(FWD,STR,RCW);
 
@@ -38,65 +32,72 @@ void frc_8011::swerveDriveMode::execute(double FWD,double STR,double RCW){
 
     shiftDegreeSpeed();//检查是否需要转换
 
-     double leftFrontPosition=frc_8011::encoderPosition(WS1DegreeNum);
-     double rightFrontPosition=frc_8011::encoderPosition(WS2DegreeNum);
+     double rightFrontPosition=frc_8011::encoderPosition(WS1DegreeNum);
+     double leftFrontPosition=frc_8011::encoderPosition(WS2DegreeNum);
      double leftRearPosition=frc_8011::encoderPosition(WS3DegreeNum);
      double rightRearPosition=frc_8011::encoderPosition(WS4DegreeNum);
+     //配置速度
+     _rightFrontWheel.setDriveMotorSpeed(rightFrontSpeed*0.5);
+     _leftFrontWheel.setDriveMotorSpeed(leftFrontSpeed*0.5);
+     _leftRearWheel.setDriveMotorSpeed(leftRearSpeed*0.5);
+     _rightRearWheel.setDriveMotorSpeed(rightRearSpeed*0.5);
 
-    //  _leftFrontWheel.setDriveMotorSpeed(leftFrontSpeed);
-    //  _rightFrontWheel.setDriveMotorSpeed(rightFrontSpeed);
-    //  _leftRearWheel.setDriveMotorSpeed(leftRearSpeed);
-    //  _rightRearWheel.setDriveMotorSpeed(rightRearSpeed);
+     //配置转向角度
+     _rightFrontWheel.setSteerMotorPosition(rightFrontPosition);
+     _leftFrontWheel.setSteerMotorPosition(leftFrontPosition);
+     _leftRearWheel.setSteerMotorPosition(leftRearPosition);
+     _rightRearWheel.setSteerMotorPosition(rightRearPosition);
 
-    //  _leftFrontWheel.setSteerMotorPosition(leftFrontPosition);
-    //  _rightFrontWheel.setSteerMotorPosition(rightFrontPosition);
-    //  _leftRearWheel.setSteerMotorPosition(leftRearPosition);
-    //  _rightRearWheel.setSteerMotorPosition(rightRearPosition);
-
-    _leftFrontWheel.setDriveMotorSpeed(0.05);
-     _rightFrontWheel.setDriveMotorSpeed(0.05);
-     _leftRearWheel.setDriveMotorSpeed(0.05);
-     _rightRearWheel.setDriveMotorSpeed(0.05);
-
-     _leftFrontWheel.setSteerMotorPosition(0.1);
-     _rightFrontWheel.setSteerMotorPosition(0.1);
-     _leftRearWheel.setSteerMotorPosition(0.1);
-     _rightRearWheel.setSteerMotorPosition(0.1);
-
+     frc::SmartDashboard::PutNumber("X", STR);
+     frc::SmartDashboard::PutNumber("Y", FWD);
+     frc::SmartDashboard::PutNumber("R", RCW);
      frc::SmartDashboard::PutNumber("leftFrontSpeed",leftFrontSpeed);
      frc::SmartDashboard::PutNumber("rightFrontSpeed",rightFrontSpeed);
      frc::SmartDashboard::PutNumber("leftRearSpeed",leftRearSpeed);
      frc::SmartDashboard::PutNumber("rightRearSpeed",rightRearSpeed);
-     frc::SmartDashboard::PutNumber("WS1Degree",WS1DegreeNum);
-     frc::SmartDashboard::PutNumber("WS2Degree",WS2DegreeNum);
-     frc::SmartDashboard::PutNumber("WS3Degree",WS3DegreeNum);
-     frc::SmartDashboard::PutNumber("WS4Degree",WS4DegreeNum);
      frc::SmartDashboard::PutNumber("leftFrontPosition",leftFrontPosition);
      frc::SmartDashboard::PutNumber("rightFrontPosition",rightFrontPosition);
      frc::SmartDashboard::PutNumber("leftRearPosition", leftRearPosition);
      frc::SmartDashboard::PutNumber("rightRearPosition",rightRearPosition);
-     frc::SmartDashboard::PutNumber("leftFrontPositionA",_leftFrontWheel.getEncoder());
-     frc::SmartDashboard::PutNumber("rightFrontPositionA",_rightFrontWheel.getEncoder());
-     frc::SmartDashboard::PutNumber("leftRearPositionA",_leftRearWheel.getEncoder());
-     frc::SmartDashboard::PutNumber("rightRearPositionA",_rightRearWheel.getEncoder());
-
 
      }
-    //转角超过一定值后，直接转变速度方向
+    void frc_8011::swerveDriveMode::resetInit(){
+        _rightFrontWheel.steerMotorResetInit();
+        _leftFrontWheel.steerMotorResetInit();
+        _leftRearWheel.steerMotorResetInit();
+        _rightRearWheel.steerMotorResetInit();
+    }
+    void frc_8011::swerveDriveMode::resetMotor(){
+        _rightFrontWheel.steerMotorReset(2280);
+        _leftFrontWheel.steerMotorReset(1750);
+        _leftRearWheel.steerMotorReset(720);
+        _rightRearWheel.steerMotorReset(1995);
+    }
+
+    void frc_8011::swerveDriveMode::positionControl(double position){
+        _rightFrontWheel.setDriveMotorPosition(position);
+        _leftFrontWheel.setDriveMotorPosition(position);
+        _leftRearWheel.setDriveMotorPosition(position);
+        _rightRearWheel.setDriveMotorPosition(position);
+    }
+
+    /**
+     * 转角超过一定值后，直接转变速度方向
+     */
      void shiftDegreeSpeed(){
          if(WS1DegreeNum>90||WS1DegreeNum<-90){
              if(WS1DegreeNum>90)
              WS1DegreeNum=WS1DegreeNum-180;
              else 
              WS1DegreeNum=WS1DegreeNum+180;
-            leftFrontSpeed=-1*leftFrontSpeed; 
+            rightFrontSpeed=-1*rightFrontSpeed; 
          }
          if(WS2DegreeNum>90||WS2DegreeNum<-90){
              if(WS2DegreeNum>90)
              WS2DegreeNum=WS2DegreeNum-180;
              else 
              WS2DegreeNum=WS2DegreeNum+180;
-            rightFrontSpeed=-1*rightFrontSpeed; 
+            leftFrontSpeed=-1*leftFrontSpeed; 
          }
          if(WS3DegreeNum>90||WS3DegreeNum<-90){
              if(WS3DegreeNum>90)
