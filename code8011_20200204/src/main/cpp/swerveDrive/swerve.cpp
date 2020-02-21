@@ -34,6 +34,10 @@ int frc_8011::Swerve::getDriveMotorId(){
     return driveMotor->GetDeviceId();
 }
 
+rev::CANSparkMax* frc_8011::Swerve::getDriveMotor(){
+    return driveMotor;
+}
+
 void frc_8011::Swerve::setDriveMotorPosition(double position){
     double rotations=position/0.33*6.67;
     m_pidController->SetReference(rotations,rev::ControlType::kPosition);

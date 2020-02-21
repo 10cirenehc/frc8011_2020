@@ -26,6 +26,8 @@ namespace frc_8011{
      void setSteerMotorPosition(double position);
      //获取前进马达的id号
      int getDriveMotorId();
+     //获取前进马达对象
+     rev::CANSparkMax* getDriveMotor();
      //获取旋转编码器的位置
      double getEncoder();
      //复位程序初始化

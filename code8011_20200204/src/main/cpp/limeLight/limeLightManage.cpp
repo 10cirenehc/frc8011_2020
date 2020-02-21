@@ -11,7 +11,7 @@ double limeLightManage::aim_distance(double targetDis){
     double driving_error=0.0;
     if(lime.hasTarget()){
         driving_error=lime.getDistance()-targetDis;
-        driving_adjust=kpDistance*driving_error+kdDistance*dis_error_sum;
+        driving_adjust=kpDistance*driving_error+kiDistance*dis_error_sum;
         if(driving_error<0.08&&driving_error>-0.08){
             driving_adjust=0.0;
             dis_error_sum=0.0;
@@ -28,7 +28,7 @@ double limeLightManage::aim_hor_angle(){
     double horAngle_error=0.0;
     if(lime.hasTarget()){
       horAngle_error=lime.getHorAngle();
-      horizontal_adjust=kpHor*horAngle_error+kdHor*hor_error_sum;
+      horizontal_adjust=kpHor*horAngle_error+kiHor*hor_error_sum;
       hor_error_sum=hor_error_sum+horAngle_error;
 
       if(horAngle_error<0.5&&horAngle_error>-0.5){
@@ -48,7 +48,7 @@ double limeLightManage::aim_spin_angle(){
     horAngle_error=lime.getHorAngle();
     spin_error_sum=spin_error_sum+horAngle_error;
 
-    spin_adjust=kpSpin*horAngle_error+kdSpin*spin_error_sum;
+    spin_adjust=kpSpin*horAngle_error+kiSpin*spin_error_sum;
     if(horAngle_error<0.5&&horAngle_error>-0.5){
         spin_adjust=0.0;
         spin_error_sum=0.0;

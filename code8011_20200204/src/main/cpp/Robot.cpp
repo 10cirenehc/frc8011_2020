@@ -8,6 +8,7 @@
 #include "gyro/pigeonIMU.h"
 #include <util/commonUtil.h>
 #include <cmath>
+#include "auto/auto_commands.h"
 
 using namespace frc_8011;
 
@@ -16,11 +17,14 @@ frc::Joystick _joy{0};
 frc::Joystick _joy1{1};
 
 limeLightManage limeMan;
-gyroPig gyro_Pig{9};  //陀螺仪
+gyroPig* gyro_Pig = new gyroPig(9);  //陀螺仪
+auto_commands auton; 
+
+int AUTON_MODE = 1; //选择自动程序模式
 
 void Robot::RobotInit() {
   //driveMode.resetMotor();
-  gyro_Pig.gyroInit();//初始化陀螺仪
+  gyro_Pig->gyroInit();//初始化陀螺仪
 }
 
 void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
@@ -38,6 +42,7 @@ void Robot::AutonomousInit() {
   //driveMode.resetInit();
   driveMode.initMotor();
   limeMan.setLimeLed(limeLightLedMode::mShootBall);
+  auton.initAutoCommands(gyro_Pig, driveMode, AUTON_MODE);
 }
 
 void Robot::AutonomousPeriodic() {
@@ -46,9 +51,9 @@ void Robot::AutonomousPeriodic() {
   double R=0.0;
   
    //Y=limeMan.aim_distance(4.0);
-   driveMode.positionControl(10);
+   //driveMode.positionControl(10);
   // driveMode.execute(Y,X,R);
-    
+    auton.move(0.8,1,0);
 }
 
 void Robot::TeleopInit() {
