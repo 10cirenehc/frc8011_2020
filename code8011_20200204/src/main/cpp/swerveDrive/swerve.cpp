@@ -15,15 +15,20 @@ void frc_8011::Swerve::motorInit(){
     m_pidController->SetFF(0.0);
    
     steerMotor->ConfigFactoryDefault();
-    int absolutePosition=steerMotor->GetSelectedSensorPosition();
     steerMotor->ConfigSelectedFeedbackSensor(
-				FeedbackDevice::PulseWidthEncodedPosition, 0,30);
-    steerMotor->SetSelectedSensorPosition(0.0, 0,30);
+				FeedbackDevice::CTRE_MagEncoder_Absolute, 0,30);
+    int absolutePosition=steerMotor->GetSelectedSensorPosition();
+    //steerMotor->SetSelectedSensorPosition(absolutePosition, 0,30);
+    //steerMotor->ConfigFeedbackNotContinuous(true);
     steerMotor->SetSensorPhase(true);
     steerMotor->Config_kF(0, 0.0, 30);
 	steerMotor->Config_kP(0, 0.38, 30);
 	steerMotor->Config_kI(0, 0.00001, 30);
 	steerMotor->Config_kD(0, 0.0, 30);
+}
+
+void frc_8011::Swerve::setZeroPoint(){
+    steerMotor->SetSelectedSensorPosition(0,0,30);
 }
 
 void frc_8011::Swerve::setDriveMotorSpeed(double speed){
@@ -51,23 +56,11 @@ void frc_8011::Swerve::setSteerMotorPosition(double position){
     steerMotor->Set(ControlMode::Position,position);
 }
 
-double frc_8011::Swerve::getEncoder(){
+double frc_8011::Swerve::getSteerEncoder(){
     return steerMotor->GetSelectedSensorPosition(0);
 }
 
-int frc_8011::Swerve::steerMotorResetInit(){
-    steerMotor->ConfigFactoryDefault();
-    int absolutePosition=steerMotor->GetSelectedSensorPosition(0) & 0xFFF;
-    steerMotor->ConfigSelectedFeedbackSensor(
-				FeedbackDevice::PulseWidthEncodedPosition, 0,30);
-    steerMotor->SetSelectedSensorPosition(absolutePosition, 0,30);
-    steerMotor->SetSensorPhase(true);
-    steerMotor->Config_kF(0, 0.0, 30);
-	steerMotor->Config_kP(0, 0.385, 30);
-	steerMotor->Config_kI(0, 0.00, 30);
-	steerMotor->Config_kD(0, 0.0, 30);
-    return absolutePosition;
-}
-void frc_8011::Swerve::steerMotorReset(double position){
-    steerMotor->Set(ControlMode::Position,position);
+double frc_8011::Swerve::getDriveEncoder(){
+    rev::CANEncoder m_encoder=driveMotor->GetEncoder();
+    return m_encoder.GetPosition();
 }
