@@ -12,3 +12,5 @@
  * 超过峰值直接过滤掉
  */ 
  double Cap(double value, double peak);
+
+

@@ -2,6 +2,7 @@
   
 #include "limeLight/limelight.h"
 #include "util/limelightLedMode.h"
+#include "util/robotStatus.h"
 
   const double kpDistance = 0.52;               //调整距离的P值 
   const double kiDistance = 0.000007;              //调整距离的I值 
@@ -32,6 +33,12 @@
     double aim_spin_angle();
 
     void setLimeLed(limeLightLedMode mode);
+
+    /**
+     * 获取摄像头状态
+     */
+    void getLimeStatus(robotStatus * status);
+
   private:
      frc_8011::limelight lime;
   };

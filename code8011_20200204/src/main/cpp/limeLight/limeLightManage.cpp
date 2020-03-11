@@ -59,6 +59,13 @@ double limeLightManage::aim_spin_angle(){
     return spin_adjust;
 }
 
+void limeLightManage::getLimeStatus(robotStatus *status){
+    status->isHasTarget=lime.hasTarget();
+    status->dist_error=lime.getDistance();
+    status->hor_angle_error=lime.getHorAngle();
+    status->ver_angle_error=lime.getVertAngle();
+}
+
 void limeLightManage::setLimeLed(limeLightLedMode mode){
     switch (mode)
     {

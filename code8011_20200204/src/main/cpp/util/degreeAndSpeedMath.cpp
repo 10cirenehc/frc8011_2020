@@ -4,7 +4,7 @@
 
 using namespace std;
 using namespace frc_8011;
-const double PI=3.1416;
+const double PI=3.14159265358;
 const double ENCODERCOUNT=4096.0;
 double length=27.56;//为70厘米
 double width=27.56;
@@ -13,12 +13,13 @@ double width=27.56;
 double R=38.98;
 
 double frc_8011::calculateA(double STR,double RCW){
-    return STR-RCW*(length/width);
+    return STR-RCW*(length/R);
 }
 
 double frc_8011::calculateB(double STR,double RCW){
-    return STR+RCW*(length/width);
+    return STR+RCW*(length/R);
 }
+
 
 double frc_8011::calculateC(double FWD,double RCW){
     return FWD-RCW*(width/R);
