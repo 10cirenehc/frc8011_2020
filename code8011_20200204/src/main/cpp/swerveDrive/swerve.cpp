@@ -48,6 +48,10 @@ void frc_8011::Swerve::setDriveMotorPosition(double position){
     m_pidController->SetReference(rotations,rev::ControlType::kPosition);
 }
 
+void frc_8011::Swerve::setDriveMotorPIDSpeed(double speed){
+    m_pidController->SetReference(speed,rev::ControlType::kVelocity);
+}
+
 void frc_8011::Swerve::setSteerMotorSpeed(double speed){
     steerMotor->Set(ControlMode::PercentOutput,speed);
 }
@@ -63,4 +67,13 @@ double frc_8011::Swerve::getSteerEncoder(){
 double frc_8011::Swerve::getDriveEncoder(){
     rev::CANEncoder m_encoder=driveMotor->GetEncoder();
     return m_encoder.GetPosition();
+}
+
+double frc_8011::Swerve::getDriveSpeed(){
+    rev::CANEncoder m_encoder=driveMotor->GetEncoder();
+    return m_encoder.GetVelocity();
+}
+
+double frc_8011::Swerve::getSteerSpeed(){
+    return steerMotor->GetSelectedSensorVelocity();
 }

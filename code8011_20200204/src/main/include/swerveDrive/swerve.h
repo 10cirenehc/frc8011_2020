@@ -18,10 +18,12 @@ namespace frc_8011{
      void motorInit();
      //设置零点
      void setZeroPoint();
-     //设置前进马达的速度
+     //设置前进马达的速度(普通的PWM控制)
      void setDriveMotorSpeed(double speed);
      //设置前进马达的位置
      void setDriveMotorPosition(double position);
+     //设置马达按照一定速度运行
+     void setDriveMotorPIDSpeed(double speed);
      //设置转动马达的速度
      void setSteerMotorSpeed(double speed);
      //设置转动马达的位置
@@ -34,7 +36,10 @@ namespace frc_8011{
      double getSteerEncoder();
      //获取前进马达的编码器位置
      double getDriveEncoder();
-    
+     //获取前进马达的速度
+     double getDriveSpeed();
+     //获取旋转马达的速度
+     double getSteerSpeed(); 
 
    private:
      rev::CANSparkMax *driveMotor;

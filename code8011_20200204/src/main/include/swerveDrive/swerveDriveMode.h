@@ -1,7 +1,7 @@
 #pragma once
 
 #include <swerveDrive/swerve.h>
-
+#include "util/robotStatus.h"
 namespace frc_8011{
 class swerveDriveMode
 {
@@ -28,10 +28,12 @@ public:
     void resetMotor();
     //PID控制底盘行驶距离
     void positionControl(double position);
-    //获取drive马达的编码器数据
-    void getDrivePosition(int p[4]);
-    //获取steer马达的编码器数据
-    void getSteerPosition(int p[4]);
+    //PID控制底盘按照一定速度行驶
+    void speedControl(double speed);
+    //获取底盘各个马达的数据
+    void getMotorStatus(robotStatus* status);
+    
+
     //转身策略
     void turnRight(double error_angle);
     void turnLeft(double error_angle);

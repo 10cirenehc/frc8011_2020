@@ -29,7 +29,7 @@ void auto_commands::move(double maxSpeed, double targetDist, double heading){
     heading -= getPreviousDirection();
     //driveMotor encoder
     int p[4];
-    drive.getDrivePosition(p);
+    //drive.getDrivePosition(p);
     double rightFront_encoder=p[0];
     double leftFront_encoder=p[1];
     double leftRear_encoder=p[2];
@@ -84,7 +84,7 @@ void auto_commands::move(double maxSpeed, double targetDist, double heading){
         drive.execute(xCorrection, yCorrection, angleCorrection);
 
         updatePosition(currentX, currentY);
-         drive.getDrivePosition(p);
+         //drive.getDrivePosition(p);
          rightFront_encoder=p[0];
          leftFront_encoder=p[1];
          leftRear_encoder=p[2];
