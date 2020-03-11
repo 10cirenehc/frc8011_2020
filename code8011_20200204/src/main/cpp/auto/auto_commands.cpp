@@ -44,8 +44,7 @@ void auto_commands::move(double maxSpeed, double targetDist, double heading){
     double xCorrection, yCorrection, angleCorrection = 0;
 
     //PID loop below
-    while (((leftFront_encoder.GetPosition()*0.33 + rightRear_encoder.GetPosition()*0.33)/2) < targetDist-drive_error_margin || 
-            ((leftFront_encoder.GetPosition()*0.33 + rightRear_encoder.GetPosition()*0.33)/2)> targetDist+drive_error_margin)
+    while (((getCurrentEncoderDist(leftFront_encoder)*0.33 + getCurrentEncoderDist(rightRear_encoder)*0.33)/2) < targetDist-drive_error_margin)
     {
         currentX = ((getCurrentEncoderDist(leftFront_encoder)+getCurrentEncoderDist(rightRear_encoder))/2)*cos(headingRadians);
         currentY = ((getCurrentEncoderDist(leftFront_encoder)+getCurrentEncoderDist(rightRear_encoder))/2)*sin(headingRadians);
