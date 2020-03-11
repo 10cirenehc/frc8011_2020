@@ -45,12 +45,8 @@ void auto_commands::move(double maxSpeed, double targetDist, double heading){
     updateRotations(leftFront_encoder,rightRear_encoder);
 
     //PID loop below
-<<<<<<< HEAD
-    while (((getCurrentEncoderDist(leftFront_encoder)*0.33 + getCurrentEncoderDist(rightRear_encoder)*0.33)/2) < targetDist-drive_error_margin)
-=======
     while (((getCurrentEncoderDist(leftFront_encoder) + getCurrentEncoderDist(rightRear_encoder))/2) <(targetDist-drive_error_margin) || 
           ((getCurrentEncoderDist(leftFront_encoder) + getCurrentEncoderDist(rightRear_encoder))/2)>(targetDist+drive_error_margin))
->>>>>>> 7d54fe9a3da9b65c14c61abb60dbb347130ab94f
     {
         
         currentX = ((getCurrentEncoderDist(leftFront_encoder)+getCurrentEncoderDist(rightRear_encoder))/2)*cos(headingRadians);
