@@ -127,4 +127,4 @@ void auto_commands::printPosition(){
     frc::SmartDashboard::PutNumber(" position1", position[1]);
     frc::SmartDashboard::PutNumber("Direction", position[2]);
 }
-
+ 
