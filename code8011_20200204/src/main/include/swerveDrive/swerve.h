@@ -40,7 +40,8 @@ namespace frc_8011{
      double getDriveSpeed();
      //获取旋转马达的速度
      double getSteerSpeed(); 
-
+    //停止
+    void stopDriveMotor();
    private:
      rev::CANSparkMax *driveMotor;
      TalonSRX * steerMotor;

@@ -32,10 +32,15 @@ public:
     void speedControl(double speed);
     //获取底盘各个马达的数据
     void getMotorStatus(robotStatus* status);
+    //停止前进马达
+    void stopDrive();
+    //测试旋转马达
+    void testSteerMotor(double speed);
     
 
     //转身策略
     void turnRight(double error_angle);
+
     void turnLeft(double error_angle);
     void turnDrive1();    //右转第一步
     void turnDrive2();
@@ -45,7 +50,5 @@ public:
     void turnLeftDrive2();
     void turnLeftDrive3();
     void turnLeftDrive4();
-    //走直线
-    void goStraight(double error_angle,double distance);
 };
 }

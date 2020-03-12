@@ -18,11 +18,11 @@ void frc_8011::Swerve::motorInit(){
     steerMotor->ConfigSelectedFeedbackSensor(
 				FeedbackDevice::CTRE_MagEncoder_Absolute, 0,30);
     int absolutePosition=steerMotor->GetSelectedSensorPosition();
-    //steerMotor->SetSelectedSensorPosition(absolutePosition, 0,30);
+    steerMotor->SetSelectedSensorPosition(absolutePosition, 0,30);
     //steerMotor->ConfigFeedbackNotContinuous(true);
     steerMotor->SetSensorPhase(true);
     steerMotor->Config_kF(0, 0.0, 30);
-	steerMotor->Config_kP(0, 0.38, 30);
+	steerMotor->Config_kP(0, 0.3895, 30);
 	steerMotor->Config_kI(0, 0.00001, 30);
 	steerMotor->Config_kD(0, 0.0, 30);
 }
@@ -32,7 +32,7 @@ void frc_8011::Swerve::setZeroPoint(){
 }
 
 void frc_8011::Swerve::setDriveMotorSpeed(double speed){
-    driveMotor->Set(speed);
+    driveMotor->Set(speed*0.2);
 }
 
 int frc_8011::Swerve::getDriveMotorId(){
@@ -76,4 +76,8 @@ double frc_8011::Swerve::getDriveSpeed(){
 
 double frc_8011::Swerve::getSteerSpeed(){
     return steerMotor->GetSelectedSensorVelocity();
+}
+
+void frc_8011::Swerve::stopDriveMotor(){
+    driveMotor->StopMotor();
 }

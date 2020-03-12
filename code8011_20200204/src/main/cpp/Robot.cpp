@@ -39,38 +39,51 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
   updateStatus(driveMode,gyro_Pig,limeMan,rbStatus);   //实时更新机器各项状态数据
-  frc::SmartDashboard::PutNumber("rRDriveENC",rbStatus->rRDriveEnc);
-
+  
 }
-/**----------------------------------------------------------------------------------------**/
+
 
 /**---------------------------------Disable------------------------------------------------**/
 void Robot::DisabledInit() {
-   //driveMode.resetMotor();
+  //driveMode.resetMotor();
   //关闭limeLight的LED灯
    limeMan.setLimeLed(limeLightLedMode::mDisable);
 }
 void Robot::DisabledPeriodic() {
+  //driveMode.resetMotor();
+  driveMode.stopDrive();
+  frc::SmartDashboard::PutNumber("lFSteerEnc",rbStatus->lFSteerEnc);
 }
-/**----------------------------------------------------------------------------------------**/
 
 /**---------------------------------Auto---------------------------------------------------**/
 void Robot::AutonomousInit() {
   //初始化底盘各个马达控制器
-   // driveMode.setZeroPoint();
+   driveMode.setZeroPoint();
 
   //   limeMan.setLimeLed(limeLightLedMode::mShootBall);
-   auton.initAutoCommands(gyro_Pig, driveMode, AUTON_MODE);
-   auton.move(0.3,10.0,0);
-   driveMode.execute(0.0,0.0,0.0);
+  //  auton.initAutoCommands(gyro_Pig, driveMode, AUTON_MODE);
+  //  auton.move(0.3,10.0,0);
+  //  driveMode.execute(0.0,0.0,0.0);
 
 }
 void Robot::AutonomousPeriodic() {
-  //frc2::CommandScheduler::GetInstance().Run(); 
- 
-
+  double YXR[3];
+  autoAction(rbStatus,gyro_Pig,limeMan,autoMODE::firstAuto,YXR);
+  driveMode.execute(YXR[0],YXR[1],YXR[2]);
+  frc::SmartDashboard::PutNumber("lFSteerEnc",rbStatus->lFSteerEnc);
+  frc::SmartDashboard::PutNumber("lRSteerEnc",rbStatus->lRSteerEnc);
+  frc::SmartDashboard::PutNumber("rRSteerEnc",rbStatus->rRSteerEnc);
+  frc::SmartDashboard::PutNumber("rFSteerEnc",rbStatus->rFSteerEnc);
+  frc::SmartDashboard::PutNumber("rFDriveEnc",rbStatus->rFDriveEnc);
+  frc::SmartDashboard::PutNumber("lFDriveEnc",rbStatus->lFDriveEnc);
+  frc::SmartDashboard::PutNumber("lRDriveEnc",rbStatus->lRDriveEnc);
+  frc::SmartDashboard::PutNumber("rRDriveEnc",rbStatus->rRDriveEnc);
+  frc::SmartDashboard::PutNumber("gyro_angle",rbStatus->gyro_angle);
+  frc::SmartDashboard::PutNumber("Y",YXR[0]);
+  frc::SmartDashboard::PutNumber("X",YXR[1]);
+  frc::SmartDashboard::PutNumber("R",YXR[2]);
 }
-/**----------------------------------------------------------------------------------------**/
+
 /**-----------------------------------Tele-------------------------------------------------**/
 void Robot::TeleopInit() {
   //初始化底盘各个马达控制器
@@ -156,9 +169,10 @@ void Robot::TeleopPeriodic() {
 
     driveMode.execute(Y,X,R);
 }
-/**----------------------------------------------------------------------------------------**/
+/**-----------------------------------TEST-------------------------------------------------**/
 void Robot::TestPeriodic() {
-  driveMode.speedControl(0.2);
+  //driveMode.speedControl(0.2);
+  driveMode.testSteerMotor(0.5);
 }
 
 #ifndef RUNNING_FRC_TESTS

@@ -44,15 +44,17 @@
 
         else if(FWD<0){
             FWD=-1*FWD;
+            STR=-1*STR;
+            //RCW=-1*RCW;
             rightRearSpeed=-1*frc_8011::WS1Speed(FWD,STR,RCW);
             leftRearSpeed=-1*frc_8011::WS2Speed(FWD,STR,RCW);
             leftFrontSpeed=-1*frc_8011::WS3Speed(FWD,STR,RCW);
             rightFrontSpeed=-1*frc_8011::WS4Speed(FWD,STR,RCW);
 
-            wS1Degree=frc_8011::WS4Degree(FWD,STR,RCW);
-            wS2Degree=frc_8011::WS3Degree(FWD,STR,RCW);
-            wS3Degree=frc_8011::WS2Degree(FWD,STR,RCW);
-            wS4Degree=frc_8011::WS1Degree(FWD,STR,RCW);
+            wS1Degree=frc_8011::WS3Degree(FWD,STR,RCW);
+            wS2Degree=frc_8011::WS4Degree(FWD,STR,RCW);
+            wS3Degree=frc_8011::WS1Degree(FWD,STR,RCW);
+            wS4Degree=frc_8011::WS2Degree(FWD,STR,RCW);
 
         }
 
@@ -142,10 +144,10 @@
 
  
     void frc_8011::swerveDriveMode::resetMotor(){
-        _rightFrontWheel.setSteerMotorPosition(2711);
-        _leftFrontWheel.setSteerMotorPosition(1824);
-        _leftRearWheel.setSteerMotorPosition(84);
-        _rightRearWheel.setSteerMotorPosition(248);
+        _rightFrontWheel.setSteerMotorPosition(1835);
+        _leftFrontWheel.setSteerMotorPosition(1900);
+        _leftRearWheel.setSteerMotorPosition(1170);
+        _rightRearWheel.setSteerMotorPosition(60);
     }
 
     void frc_8011::swerveDriveMode::positionControl(double position){
@@ -327,9 +329,16 @@
             _rightRearWheel.setDriveMotorSpeed(0.707); 
     }
 
-    /**
-     * 按照指定距离走直线
-     */
-    void frc_8011::swerveDriveMode::goStraight(double error_angle,double distance){
-        
+    void frc_8011::swerveDriveMode::stopDrive(){
+        _rightFrontWheel.stopDriveMotor();
+        _leftFrontWheel.stopDriveMotor();
+        _leftRearWheel.stopDriveMotor();
+        _rightRearWheel.stopDriveMotor();
+    }
+
+    void frc_8011::swerveDriveMode::testSteerMotor(double speed){
+        //_rightFrontWheel.setSteerMotorSpeed(speed);
+        //_leftFrontWheel.setSteerMotorSpeed(speed);
+        _leftRearWheel.setSteerMotorSpeed(speed);
+        //_rightRearWheel.setSteerMotorSpeed(speed);
     }

@@ -3,7 +3,9 @@
 #include "swerveDrive/swerveDriveMode.h"
 #include "limeLight/limeLightManage.h"
 #include "gyro/pigeonIMU.h"
+#include "util/robotStatus.h"
 using namespace frc_8011;
+
 
 /**
  * 自动模式方案
@@ -18,4 +20,7 @@ enum  autoMODE{
 /**
  * 自动模式
  */
-void autoAction(double error_gyro,int *error_drive,autoMODE mode,double *YXR);
+void autoAction(robotStatus *status,gyroPig* gyro_Pig,limeLightManage limeMan,autoMODE mode,double *YXR);
+
+
+double  goForward(double error);

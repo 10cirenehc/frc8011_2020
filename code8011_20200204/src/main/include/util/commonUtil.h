@@ -8,6 +8,8 @@
  */ 
 
  double DB(double axisVal);
+
+ double DB1(double axisVal,double deadband);
 /**
  * 超过峰值直接过滤掉
  */ 

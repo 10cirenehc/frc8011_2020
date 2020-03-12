@@ -7,6 +7,12 @@
 			return (axisVal-0.1)*1.11;
 		return 0;
 	}
+	/** @return other deadband */
+	double DB1(double axisVal,double deadband) {
+		if ((axisVal < deadband )&&(axisVal >(-1*deadband)) )
+			return 0.0;
+		return axisVal;
+	}
 	/** @param value to cap.
 	 * @param peak positive double representing the maximum (peak) value.
 	 * @return a capped value.

@@ -1,6 +1,9 @@
 #include "gyro/pigeonIMU.h"
 #include <frc/smartdashboard/SmartDashboard.h>
-double kPgain = 0.03; 
+#include <cmath>
+#include<util/commonUtil.h>
+
+double kPgain = -0.15; 
 double kDgain = 0.00004; 
 
 gyroPig::gyroPig(int canID){
@@ -29,8 +32,6 @@ double gyroPig::getGyroSpin(double targetAngle){
 
     double currentAngle=getCurrentAngle();
     double angle_error=targetAngle-currentAngle;//角度误差
-    frc::SmartDashboard::PutNumber("currentAngle",currentAngle);
-    frc::SmartDashboard::PutNumber("angle_error",angle_error);
     PigeonIMU::GeneralStatus genStatus;
 	double xyz_dps[3];
 	_pidgey->GetGeneralStatus(genStatus);
@@ -38,12 +39,7 @@ double gyroPig::getGyroSpin(double targetAngle){
     double currentAngularRate = xyz_dps[2];
 
     spin_adjust=angle_error*kPgain-currentAngularRate*kDgain;
-    if(spin_adjust>0.3){
-        spin_adjust=0.3;
-    }
-    else if(spin_adjust<-0.3){
-        spin_adjust=-0.3;
-    }
-
+    spin_adjust=Cap(spin_adjust,0.3);
+    spin_adjust=DB1(spin_adjust,0.06);
     return spin_adjust;
 }
