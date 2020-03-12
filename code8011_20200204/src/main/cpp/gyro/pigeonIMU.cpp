@@ -14,9 +14,7 @@ void gyroPig::gyroInit(){
     //_pidgey->ConfigFactoryDefault();
     const int kTimeoutMs = 10;
 	_pidgey->SetFusedHeading(0.0, kTimeoutMs);
-  
 }
-
 bool gyroPig::gyroReady(){
     return (_pidgey->GetState() == PigeonIMU::Ready) ? true : false;
 }
