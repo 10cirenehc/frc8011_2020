@@ -19,8 +19,8 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
     {
     case firstAuto:
     {
-        //直行走向摆球位置，直行4米，直至抓到两个球为止
         double drive_error=(status->rFDriveEnc+status->lRDriveEnc)/2;
+        //直行走向摆球位置，直行3米
         if(actionStep==0){  //第一步
             YXR[0]=goForward(40.0-drive_error);
             YXR[1]=0.0;
@@ -29,6 +29,7 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
                 actionStep=1;
             }
         }
+         //旋转180度
         if(actionStep==1){    //第二步
             YXR[0]=0.0;
             YXR[1]=0.0;
@@ -38,6 +39,7 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
                 drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
             }
         }
+         //往回走
         if(actionStep==2){    //第三步
             YXR[0]=goForward((40.0+drive_status)-drive_error);
             YXR[1]=0.0;
@@ -47,6 +49,7 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
                 drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
             }
         }
+        //横着走
         if(actionStep==3){    //第四步
             YXR[0]=0.0;
             YXR[1]=goForward(60+drive_status-drive_error);
@@ -55,34 +58,88 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
                 actionStep=4;
             }
         }
+        //走到指定距离，且对准
         if(actionStep==4){     //第五步
-            limeMan.setLimeLed(limeLightLedMode::mShootBall);
-
-            YXR[0]=0.0;
-            YXR[1]=0.0;
-            YXR[2]=limeMan.aim_spin_angle();
-            if(YXR[2]==0.0){
-                actionStep=5;
+            // limeMan.setLimeLed(limeLightLedMode::mShootBall);
+            // YXR[0]=limeMan.aim_distance(3.0);
+            // YXR[1]=0.0;
+            // YXR[2]=limeMan.aim_spin_angle();
+            // if(YXR[2]==0.0){
+            //     actionStep=5;
+            // }
+            actionStep=5;
+        }
+        //开始射球
+        if(actionStep==5){
+            actionStep=6;
+            drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
+        }
+        //斜着走,角度为22.5度，回2.5米，开始第二轮收球
+        if(actionStep==6){
+            YXR[0]=-0.41;
+            YXR[1]=-1;
+            YXR[2]=gyro_Pig->getGyroSpin(180);
+            if((drive_status-drive_error)>=50){
+                actionStep=7;
+                drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
             }
         }
-        if(actionStep==5){
-             limeMan.setLimeLed(limeLightLedMode::mShootBall);
-            YXR[0]=limeMan.aim_distance(2.0);
-            YXR[1]=0.0;
-            YXR[2]=limeMan.aim_spin_angle();
-            // if(YXR[0]==0.0){
-            //     actionStep=6;
-            // }
+        if(actionStep==7){
+            YXR[0]=0;
+            YXR[1]=0;
+            YXR[2]=gyro_Pig->getGyroSpin(22.5);
+            if(YXR[2]==0.0){
+                actionStep=8;
+                drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
+            }
         }
-
-
-        //往回走4米
-        //对准射球孔位
-        //开始射球
-        //掉头走3米
-        //左转90度，启动前置摄像头寻球，收球
-        //收购五个球后，启动射球摄像头，再左转寻找射球孔位
-        //射球
+        //往前走2米
+        if(actionStep==8){
+            YXR[0]=goForward(40+drive_status-drive_error);
+            YXR[1]=0.0;
+            YXR[2]=gyro_Pig->getGyroSpin(22.5);
+            if(YXR[0]==0.0){
+                actionStep=9;
+            }
+        }
+        //再转90度
+        if(actionStep==9){
+            YXR[0]=0;
+            YXR[1]=0.0;
+            YXR[2]=gyro_Pig->getGyroSpin(112.5);
+            if(YXR[2]==0.0){
+                actionStep=10;
+                drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
+            }
+        }
+        //再往前走0.45米
+        if(actionStep==10){
+            YXR[0]=goForward(9+drive_status-drive_error);
+            YXR[1]=0.0;
+            YXR[2]=gyro_Pig->getGyroSpin(112.5);
+            if(YXR[0]==0.0){
+                actionStep=11;
+            }
+        }
+        //再转回跟拦杠垂直
+        if(actionStep==11){
+            YXR[0]=0;
+            YXR[1]=0.0;
+            YXR[2]=gyro_Pig->getGyroSpin(22.5);
+            if(YXR[2]==0.0){
+                actionStep=12;
+                drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
+            }
+        }
+        //走半径为0.7米的弧形
+        if(actionStep==12){
+            YXR[0]=0.8;
+            YXR[1]=0.0;
+            YXR[2]=-0.44;
+            if(drive_error-drive_status>=40){
+                actionStep=13;
+            }
+        }
     }
         break;
     case secondAuto:
