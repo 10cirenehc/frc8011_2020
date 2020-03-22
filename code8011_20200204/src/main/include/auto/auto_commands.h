@@ -3,6 +3,7 @@
 #include "rev/CANSparkMax.h"
 #include "gyro/pigeonIMU.h"
 #include "swerveDrive/swerveDriveMode.h"
+#include "util/robotStatus.h"
 
 
 class auto_commands {
@@ -14,7 +15,7 @@ class auto_commands {
 
   //Heading是机器人行走的方向，Direction是车头面向的方向。
 
-  void initAutoCommands(gyroPig* gyro_pig, frc_8011::swerveDriveMode driveMode, int mode);
+  void initAutoCommands(gyroPig* gyro_pig, frc_8011::swerveDriveMode driveMode, int mode, robotStatus* status);
   void move(double maxSpeed, double targetDist, double heading);
   //void spinTo(double heading);
   void updatePosition(double addX, double addY);
