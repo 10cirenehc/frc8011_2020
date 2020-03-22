@@ -27,7 +27,7 @@ void autoAction(robotStatus *status,gyroPig* gyro_Pig,limeLightManage limeMan,au
 
 double  goForward(double error);
 
-vector<double> move(double targetDist, double maxSpeed, double heading);
+void move(double error, double maxSpeed, double heading);
 
 
 

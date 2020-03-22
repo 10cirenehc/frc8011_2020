@@ -162,43 +162,25 @@ double  goForward(double error){
     return speed;
 }
 
-vector<double> move(double targetDist, double maxSpeed, double heading, robotStatus* status){
+void move(double error, double maxSpeed, double heading, robotStatus* status, double *YXR)
     {
-
+    
+    double prevDriection = status->gyro_angle;
     //adjust for previous direction
     heading -= status->gyro_angle;
-    //driveMotor encoder
-    int p[4];
-    //drive.getDrivePosition(p);
-    double rightFront_encoder=p[0];
-    double leftFront_encoder=p[1];
-    double leftRear_encoder=p[2];
-    double rightRear_encoder=p[3];
+   
     double headingRadians = heading*(3.1416/180);
-    double xTargetDist = targetDist * cos(headingRadians);
-    double yTargetDist = targetDist * sin(headingRadians);
     double currentX, currentY = 0;
     double errorX, errorY= 0;
-    double sum_errorX, sum_errorY = 0;
-    double xCorrection, yCorrection, angleCorrection = 0;
-
-    updateRotations(leftFront_encoder,rightRear_encoder);
-
-    //PID loop bel
+    double xCorrection, yCorrection, angleCorrection = 0;    
         
-        currentX = ((getCurrentEncoderDist(leftFront_encoder)+getCurrentEncoderDist(rightRear_encoder))/2)*cos(headingRadians);
-        currentY = ((getCurrentEncoderDist(leftFront_encoder)+getCurrentEncoderDist(rightRear_encoder))/2)*sin(headingRadians);
+        errorX =error*sin(headingRadians);
+        errorY = error*cos(headingRadians);
         
-        errorX = xTargetDist - currentX;
-        errorY = yTargetDist - currentY;
+        angleCorrection = heading;//gyro->getGyroSpin(getPreviousDirection());
         
-        angleCorrection = 0.0;//gyro->getGyroSpin(getPreviousDirection());
-        
-        xCorrection = kpDist*errorX ;
+        xCorrection = kpDist*errorX;
         yCorrection = kpDist*errorY;
-
-        sum_errorX += errorX;
-        sum_errorY += errorY;
 
         //cap input values
         if (abs(xCorrection) > maxSpeed){
@@ -215,18 +197,8 @@ vector<double> move(double targetDist, double maxSpeed, double heading, robotSta
             {
                 yCorrection=-1*maxSpeed;
             }
-            
         }
-
-
-        updatePosition(currentX, currentY);
-         //drive.getDrivePosition(p);
-         rightFront_encoder=p[0];
-         leftFront_encoder=p[1];
-         leftRear_encoder=p[2];
-         rightRear_encoder=p[3];
-          printPosition();
-
-        printPosition();
-}
+        YXR[0] = yCorrection;
+        YXR[1] = xCorrection;
+        YXR[2] = angleCorrection;
 }
