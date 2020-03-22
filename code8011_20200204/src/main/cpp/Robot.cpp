@@ -70,18 +70,7 @@ void Robot::AutonomousPeriodic() {
   double YXR[3];
   autoAction(rbStatus,gyro_Pig,limeMan,autoMODE::firstAuto,YXR);
   driveMode.execute(YXR[0],YXR[1],YXR[2]);
-  frc::SmartDashboard::PutNumber("lFSteerEnc",rbStatus->lFSteerEnc);
-  frc::SmartDashboard::PutNumber("lRSteerEnc",rbStatus->lRSteerEnc);
-  frc::SmartDashboard::PutNumber("rRSteerEnc",rbStatus->rRSteerEnc);
-  frc::SmartDashboard::PutNumber("rFSteerEnc",rbStatus->rFSteerEnc);
-  frc::SmartDashboard::PutNumber("rFDriveEnc",rbStatus->rFDriveEnc);
-  frc::SmartDashboard::PutNumber("lFDriveEnc",rbStatus->lFDriveEnc);
-  frc::SmartDashboard::PutNumber("lRDriveEnc",rbStatus->lRDriveEnc);
-  frc::SmartDashboard::PutNumber("rRDriveEnc",rbStatus->rRDriveEnc);
-  frc::SmartDashboard::PutNumber("gyro_angle",rbStatus->gyro_angle);
-  frc::SmartDashboard::PutNumber("Y",YXR[0]);
-  frc::SmartDashboard::PutNumber("X",YXR[1]);
-  frc::SmartDashboard::PutNumber("R",YXR[2]);
+ 
 }
 
 /**-----------------------------------Tele-------------------------------------------------**/
