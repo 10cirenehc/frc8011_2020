@@ -19,6 +19,7 @@ struct robotStatus
      * 陀螺仪角度状态
      */
     double gyro_angle;
+    double gyro_rate; 
 
     /**
      * 摄像头状态

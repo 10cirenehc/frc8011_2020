@@ -68,6 +68,7 @@ void Robot::AutonomousInit() {
 }
 void Robot::AutonomousPeriodic() {
   double YXR[3];
+  double pose_YXR[3];
   autoAction(rbStatus,gyro_Pig,limeMan,autoMODE::firstAuto,YXR);
   driveMode.execute(YXR[0],YXR[1],YXR[2]);
  

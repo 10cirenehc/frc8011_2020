@@ -165,22 +165,21 @@ double  goForward(double error){
 void move(double error, double maxSpeed, double heading, robotStatus* status, double *YXR)
     {
     
-    double prevDriection = status->gyro_angle;
+    double prevDirection = status->gyro_angle;
     //adjust for previous direction
     heading -= status->gyro_angle;
    
     double headingRadians = heading*(3.1416/180);
-    double currentX, currentY = 0;
     double errorX, errorY= 0;
     double xCorrection, yCorrection, angleCorrection = 0;    
         
         errorX =error*sin(headingRadians);
         errorY = error*cos(headingRadians);
         
-        angleCorrection = heading;//gyro->getGyroSpin(getPreviousDirection());
+        angleCorrection = prevDirection;//gyro->getGyroSpin(getPreviousDirection());
         
-        xCorrection = kpDist*errorX;
-        yCorrection = kpDist*errorY;
+        xCorrection = kp_drive*errorX;
+        yCorrection = kp_drive*errorY;
 
         //cap input values
         if (abs(xCorrection) > maxSpeed){
