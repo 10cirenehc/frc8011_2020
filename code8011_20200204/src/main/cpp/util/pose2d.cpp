@@ -37,6 +37,9 @@ void update (robotStatus *status,gyroPig* gyro_Pig,double *YXR)
 
     double omega = status->gyro_rate;
 
+    double Lr = L/r; double Wr = W/r;
+    double RCW = omega *(r/2);
+
  }
 void update (limeLightManage limeman)
   {
