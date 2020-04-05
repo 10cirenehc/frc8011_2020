@@ -101,6 +101,7 @@ void auto_commands::move(double maxSpeed, double targetDist, double heading){
 void auto_commands::updatePosition(double addX, double addY){
     position[0] += addX;
     position[1] += addY;
+
 }
 
 void auto_commands::updateDirection(double newDirection){
