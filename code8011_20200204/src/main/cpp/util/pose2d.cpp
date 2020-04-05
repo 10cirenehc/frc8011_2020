@@ -31,8 +31,10 @@ double Lr = L/r; double Wr = W/r;
 
 void update (robotStatus *status,gyroPig* gyro_Pig,double *YXR)
  {
+    /*
     double sConversion = (2*pi/60);
     double aConversion; 
+    
     pose2d::sRF = status->rFDriveSpeed;
     pose2d::sLF = status->lFDriveSpeed;
     pose2d::sRR = status->rRDriveSpeed;
@@ -60,8 +62,38 @@ void update (robotStatus *status,gyroPig* gyro_Pig,double *YXR)
     alglib::minlbfgsreport rep;
     alglib::minlbfgsoptimize(state, function1_grad);
     minlbfgsresults(state, x, rep);
-    
+    */
 
+    double FR_B = sin(status->rFSteerSpeed)*status->rFDriveSpeed;
+    double FR_C = cos(status->rFSteerSpeed)*status->rFDriveSpeed;
+
+    double FL_B = sin(status->lFSteerSpeed)*status->lFDriveSpeed;
+    double FL_D = cos(status->lFSteerSpeed)*status->lFDriveSpeed;
+
+    double BR_A = sin(status->rRSteerSpeed)*status->rRDriveSpeed;
+    double BR_C = cos(status->rRSteerSpeed)*status->rRDriveSpeed;
+
+    double BL_A = sin(status->lRSteerSpeed)*status->lRDriveSpeed;
+    double BL_D = cos(status->lRSteerSpeed)*status->lRDriveSpeed;
+
+    double A = (BR_A + BL_A) / 2.0;
+    double B = (FR_B + FL_B) / 2.0;
+    double C = (FR_C + BR_C) / 2.0;
+    double D = (FL_D + BL_D) / 2.0;
+   
+    double omega1, omega2, omega;
+    omega1 = (B - A) / L;
+    omega2 = (C - D) / W;
+    omega = (omega1 + omega2) / 2.0;
+
+	double STR, FWD, STR1, STR2, FWD1, FWD2;
+    STR1 = omega * (L / 2.0) + A;
+    STR2 = -omega * (L / 2.0) + B;
+    FWD1 = omega * (W / 2.0) + C;
+    FWD2 = -omega * (W / 2.0) + D;
+
+    STR = (STR1 + STR2) / 2.0;
+    FWD = (FWD1 + FWD2) / 2.0;
  }
 void update (limeLightManage limeman)
   {
@@ -73,6 +105,7 @@ void update (double Y, double X, double R)
 
   }
 
+/*
 void function1_grad(const alglib::real_1d_array &x, double &func, alglib::real_1d_array &grad, void *ptr){
     // a = x[1]-x[2]*Lr    b = x[1]+x[2]*Lr    c = x[0]-x[2]*Wr    d = x[0]+x[2]*Wr 
     func = alglib::sqr(ks*(pose2d::sRF-sqrt(alglib::sqr(x[1]+x[2]*Lr)+alglib::sqr(x[0]-x[2]*Wr))))
@@ -135,3 +168,4 @@ void function1_grad(const alglib::real_1d_array &x, double &func, alglib::real_1
                 2*(ka*(pose2d::aRR-atan2(x[1]-x[2]*Lr,x[0]-x[2]*Wr)))*(-1/(1+alglib::sqr((x[1]-x[2]*Lr/x[0]-x[2]*Wr))))*
                 (x[0]-x[2]*Wr-(-1)*(x[1]-x[2]*Lr)/alglib::sqr(x[0]-x[2]*Wr));
 }
+*/ 
