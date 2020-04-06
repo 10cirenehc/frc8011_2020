@@ -81,6 +81,7 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
                 drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
             }
         }
+        //调整收球装置到22.5度
         if(actionStep==7){
             YXR[0]=0;
             YXR[1]=0;
@@ -90,7 +91,7 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
                 drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
             }
         }
-        //往前走2米
+        //往前走2米，并收球
         if(actionStep==8){
             YXR[0]=goForward(40+drive_status-drive_error);
             YXR[1]=0.0;
@@ -109,7 +110,7 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
                 drive_status=(status->rFDriveEnc+status->lRDriveEnc)/2;
             }
         }
-        //再往前走0.45米
+        //再往前走0.45米，收第三个球
         if(actionStep==10){
             YXR[0]=goForward(9+drive_status-drive_error);
             YXR[1]=0.0;
@@ -118,7 +119,7 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
                 actionStep=11;
             }
         }
-        //再转回跟拦杠垂直
+        //再转回跟拦杠垂直  
         if(actionStep==11){
             YXR[0]=0;
             YXR[1]=0.0;
@@ -132,7 +133,7 @@ void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,a
         if(actionStep==12){
             YXR[0]=0.8;
             YXR[1]=0.0;
-            YXR[2]=-0.44;
+            YXR[2]=-0.5656;
             if(drive_error-drive_status>=40){
                 actionStep=13;
             }
