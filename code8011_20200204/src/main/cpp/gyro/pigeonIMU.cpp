@@ -41,3 +41,9 @@ double gyroPig::getGyroSpin(double targetAngle){
     spin_adjust=DB1(spin_adjust,0.06);
     return spin_adjust;
 }
+
+double gyroPig::getCurrentRate(){
+    double xyz_dps[3];
+    _pidgey->GetRawGyro(xyz_dps);
+    return xyz_dps[2];
+}

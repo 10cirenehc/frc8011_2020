@@ -3,7 +3,7 @@
 #include "frc/smartdashboard/SmartDashboard.h"
 
 //input gyro and drive objects into this class
-void auto_commands::initAutoCommands(gyroPig* gyro_pig, frc_8011::swerveDriveMode driveMode, int mode){
+void auto_commands::initAutoCommands(gyroPig* gyro_pig, frc_8011::swerveDriveMode driveMode, int mode, robotStatus* status ){
     gyro = gyro_pig; 
     drive = driveMode;
     position = new double[3];
@@ -44,10 +44,7 @@ void auto_commands::move(double maxSpeed, double targetDist, double heading){
 
     updateRotations(leftFront_encoder,rightRear_encoder);
 
-    //PID loop below
-    while (((getCurrentEncoderDist(leftFront_encoder) + getCurrentEncoderDist(rightRear_encoder))/2) <(targetDist-drive_error_margin) || 
-          ((getCurrentEncoderDist(leftFront_encoder) + getCurrentEncoderDist(rightRear_encoder))/2)>(targetDist+drive_error_margin))
-    {
+    //PID loop bel
         
         currentX = ((getCurrentEncoderDist(leftFront_encoder)+getCurrentEncoderDist(rightRear_encoder))/2)*cos(headingRadians);
         currentY = ((getCurrentEncoderDist(leftFront_encoder)+getCurrentEncoderDist(rightRear_encoder))/2)*sin(headingRadians);
@@ -90,7 +87,7 @@ void auto_commands::move(double maxSpeed, double targetDist, double heading){
          leftRear_encoder=p[2];
          rightRear_encoder=p[3];
           printPosition();
-    }
+
         printPosition();
 }
 
@@ -104,6 +101,7 @@ void auto_commands::move(double maxSpeed, double targetDist, double heading){
 void auto_commands::updatePosition(double addX, double addY){
     position[0] += addX;
     position[1] += addY;
+
 }
 
 void auto_commands::updateDirection(double newDirection){

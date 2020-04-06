@@ -4,6 +4,8 @@
 #include "limeLight/limeLightManage.h"
 #include "gyro/pigeonIMU.h"
 #include "util/robotStatus.h"
+ #include <iostream>
+  #include <vector>
 using namespace frc_8011;
 
 
@@ -24,3 +26,9 @@ void autoAction(robotStatus *status,gyroPig* gyro_Pig,limeLightManage limeMan,au
 
 
 double  goForward(double error);
+
+void move(double error, double maxSpeed, double heading);
+
+
+
+

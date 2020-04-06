@@ -28,6 +28,8 @@ public:
     * PID控制陀螺仪角度，返回底盘旋转的值
     */
    double getGyroSpin(double targetAngle);
+
+   double getCurrentRate();
 private:
     PigeonIMU *_pidgey;
 };

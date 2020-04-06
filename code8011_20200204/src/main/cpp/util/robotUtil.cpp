@@ -4,6 +4,7 @@ void updateStatus(frc_8011::swerveDriveMode driveMode,gyroPig* gyro_Pig,limeLigh
   
   driveMode.getMotorStatus(status);
   status->gyro_angle=gyro_Pig->getCurrentAngle();
+  status->gyro_angle = gyro_Pig->getCurrentRate();
   lime.getLimeStatus(status);
 
 }

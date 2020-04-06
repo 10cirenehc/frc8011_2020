@@ -2,6 +2,8 @@
 #include "util/commonUtil.h"
 #include <cmath>
 #include<frc/smartdashboard/SmartDashboard.h>
+#include <iostream>
+#include <vector>
 
 double kp_drive=0.2;
 double ki_drive=1e-4;
@@ -11,6 +13,7 @@ int actionStep=0;
 double drive_status=0.0;
 
 void autoAction(robotStatus * status,gyroPig* gyro_Pig,limeLightManage limeMan,autoMODE mode,double *YXR){
+
      frc::SmartDashboard::PutNumber("actionStep",actionStep);
     switch (mode)
     {
@@ -158,4 +161,44 @@ double  goForward(double error){
         errorSum_drive=0;
     }
     return speed;
+}
+
+void move(double error, double maxSpeed, double heading, robotStatus* status, double *YXR)
+    {
+    
+    double prevDirection = status->gyro_angle;
+    //adjust for previous direction
+    heading -= status->gyro_angle;
+   
+    double headingRadians = heading*(3.1416/180);
+    double errorX, errorY= 0;
+    double xCorrection, yCorrection, angleCorrection = 0;    
+        
+        errorX =error*sin(headingRadians);
+        errorY = error*cos(headingRadians);
+        
+        angleCorrection = prevDirection;//gyro->getGyroSpin(getPreviousDirection());
+        
+        xCorrection = kp_drive*errorX;
+        yCorrection = kp_drive*errorY;
+
+        //cap input values
+        if (abs(xCorrection) > maxSpeed){
+            if(xCorrection>maxSpeed)
+            xCorrection =maxSpeed;
+            else{
+                xCorrection=-1*maxSpeed;
+            }
+        }
+        if (abs(yCorrection) >maxSpeed){
+            if(yCorrection>maxSpeed)
+            yCorrection =maxSpeed;
+            else
+            {
+                yCorrection=-1*maxSpeed;
+            }
+        }
+        YXR[0] = yCorrection;
+        YXR[1] = xCorrection;
+        YXR[2] = angleCorrection;
 }
